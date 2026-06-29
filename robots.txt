@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dedushka-whitewood.github.io/arz-lavki/sitemap.xml 
