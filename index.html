@@ -1,1025 +1,171 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="description" content="Просмотр лавок Arizona RP — Vice City, Phoenix, Tucson и другие сервера.">
-    <meta name="keywords" content="Arizona RP, лавки, Arizona, Vice City, Phoenix, скупка, продажа">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://dedushka-whitewood.github.io/arz-lavki/">   
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Arizona · Lavki</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Просмотр лавок Arizona RP">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #f0f0f0;
-            color: #111;
-            font-size: 16px;
-            line-height: 1.5;
-            padding: 8px;
-            transition: background 0.3s, color 0.3s;
-        }
-        body.dark {
-            background: #1a1a1a;
-            color: #e0e0e0;
-        }
-        .app {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 16px;
-            transition: background 0.3s, box-shadow 0.3s;
-        }
-        body.dark .app {
-            background: #2a2a2a;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 12px;
-            margin-bottom: 16px;
-        }
-        body.dark .header { border-bottom-color: #444; }
-        .header-left h1 {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .header-left h1 i { color: #b8860b; margin-right: 6px; }
-        body.dark .header-left h1 i { color: #daa520; }
-        .header-left .count {
-            font-size: 18px;
-            font-weight: 400;
-            color: #777;
-            margin-left: 4px;
-        }
-        body.dark .header-left .count { color: #aaa; }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-        }
-        .status .dot {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #aaa;
-        }
-        .status .dot.online  { background: #2b2b2b; }
-        body.dark .status .dot.online { background: #6f6; }
-        .status .dot.offline { background: #888; }
-        .status .dot.loading { background: #ccc; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-
-        .accordion {
-            background: #f8f8f8;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #e0e0e0;
-            overflow: hidden;
-            transition: background 0.3s, border-color 0.3s;
-        }
-        body.dark .accordion {
-            background: #333;
-            border-color: #555;
-        }
-        .accordion-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            user-select: none;
-            background: #f8f8f8;
-            transition: background 0.2s;
-        }
-        body.dark .accordion-header {
-            background: #333;
-            color: #ddd;
-        }
-        .accordion-header:active { background: #eee; }
-        body.dark .accordion-header:active { background: #444; }
-        .accordion-header i { transition: transform 0.3s; }
-        .accordion.open .accordion-header i { transform: rotate(180deg); }
-        .accordion-body {
-            padding: 0 16px 16px;
-            display: none;
-        }
-        .accordion.open .accordion-body { display: block; }
-        .accordion-body .row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .accordion-body label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #444;
-            min-width: 70px;
-        }
-        body.dark .accordion-body label { color: #bbb; }
-        .theme-toggle .btn {
-            min-width: 120px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #222;
-            cursor: pointer;
-            transition: 0.15s, background 0.3s, border-color 0.3s, color 0.3s;
-            min-height: 48px;
-            min-width: 48px;
-            user-select: none;
-        }
-        body.dark .btn {
-            background: #3a3a3a;
-            border-color: #555;
-            color: #ddd;
-        }
-        .btn:active { transform: scale(0.95); background: #e8e8e8; }
-        body.dark .btn:active { background: #555; }
-        .btn-primary { background: #222; border-color: #222; color: #fff; }
-        .btn-primary:active { background: #000; }
-        body.dark .btn-primary { background: #555; border-color: #777; color: #fff; }
-        body.dark .btn-primary:active { background: #333; }
-        .btn-outline { background: transparent; border-color: #bbb; }
-        body.dark .btn-outline { background: transparent; border-color: #666; color: #bbb; }
-        .btn-sm { padding: 8px 16px; font-size: 14px; min-height: 40px; }
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .filters select, .filters input {
-            flex: 1 1 140px;
-            padding: 12px 14px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 16px;
-            background: #fff;
-            height: 48px;
-            color: #111;
-            transition: background 0.3s, border-color 0.3s, color 0.3s;
-        }
-        body.dark .filters select,
-        body.dark .filters input {
-            background: #3a3a3a;
-            border-color: #555;
-            color: #ddd;
-        }
-        .filters .actions {
-            display: flex;
-            gap: 8px;
-            flex: 1 1 100%;
-        }
-        .filters .actions .btn {
-            flex: 1;
-        }
-
-        .card {
-            background: #fff;
-            border: 1px solid #e8e8e8;
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        body.dark .card {
-            background: #2f2f2f;
-            border-color: #444;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        }
-        .card:active { background: #f8f8f8; }
-        body.dark .card:active { background: #3a3a3a; }
-        .card .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-        .card .title {
-            font-size: 18px;
-            font-weight: 600;
-            word-break: break-word;
-        }
-        .card .sub {
-            font-size: 14px;
-            color: #666;
-        }
-        body.dark .card .sub { color: #aaa; }
-        .card .meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            font-size: 14px;
-            color: #888;
-            margin-top: 4px;
-        }
-        body.dark .card .meta { color: #aaa; }
-        .card .badge {
-            background: #e0e0e0;
-            font-size: 12px;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        body.dark .card .badge { background: #555; color: #ddd; }
-        .card .action {
-            margin-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-        }
-        .card .action .btn {
-            min-width: 120px;
-            background: #f0f0f0;
-            border-color: #ddd;
-            font-weight: 600;
-        }
-        body.dark .card .action .btn {
-            background: #3d3d3d;
-            border-color: #555;
-            color: #ddd;
-        }
-        .card .action .btn:active { background: #ddd; }
-        body.dark .card .action .btn:active { background: #555; }
-
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid #e8e8e8;
-        }
-        body.dark .pagination { border-top-color: #444; }
-        .pagination .info { font-size: 15px; color: #666; }
-        body.dark .pagination .info { color: #aaa; }
-        .pagination .controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        .pagination .controls .btn {
-            min-width: 56px;
-            min-height: 48px;
-            font-size: 20px;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            padding: 16px;
-        }
-        .modal {
-            background: #fff;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 24px 20px;
-            transition: background 0.3s, color 0.3s;
-        }
-        body.dark .modal {
-            background: #2a2a2a;
-            color: #ddd;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .modal-header h3 { font-size: 20px; font-weight: 700; }
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 32px;
-            line-height: 1;
-            color: #999;
-            cursor: pointer;
-            padding: 4px 10px;
-        }
-        body.dark .modal-close { color: #aaa; }
-        .modal .server-name { color: #666; font-size: 15px; margin-bottom: 14px; }
-        body.dark .modal .server-name { color: #aaa; }
-        .modal .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-        .modal .slot-box {
-            background: #f8f8f8;
-            border-radius: 12px;
-            padding: 14px;
-            transition: background 0.3s;
-        }
-        body.dark .modal .slot-box { background: #3a3a3a; }
-        .modal .slot-box h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-        .modal .slot-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 15px;
-        }
-        body.dark .modal .slot-item { border-bottom-color: #444; }
-        .modal .slot-item .price { font-weight: 600; }
-        .modal .actions { display: flex; gap: 10px; }
-        .modal .actions .btn { flex: 1; }
-
-        /* Подвал с информацией */
-        .footer {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid #e8e8e8;
-            text-align: center;
-            font-size: 14px;
-            color: #888;
-            transition: border-color 0.3s, color 0.3s;
-        }
-        body.dark .footer {
-            border-top-color: #444;
-            color: #999;
-        }
-        .footer .owner {
-            font-weight: 600;
-            color: #222;
-        }
-        body.dark .footer .owner { color: #ddd; }
-        .footer .version {
-            font-size: 12px;
-            color: #aaa;
-        }
-        body.dark .footer .version { color: #777; }
-        .footer .session-status {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-        .footer a {
-            color: #b8860b;
-            text-decoration: none;
-        }
-        .footer a:hover { text-decoration: underline; }
-        body.dark .footer a { color: #daa520; }
-
-        @media (max-width: 480px) {
-            .app { padding: 12px; }
-            .header-left h1 { font-size: 20px; }
-            .modal .grid-2 { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 <body>
 
-<div class="app">
+    <!-- ===== ЗАГРУЗОЧНЫЙ ЭКРАН ===== -->
+    <div id="splash">
+        <div class="spinner"></div>
+        <img src="assets/img/logoo.png" alt="Logo" class="logo" />
+        <div class="title">Arizona - Lavki</div>
+        <div class="sub">Загрузка данных...</div>
+    </div>
 
-    <!-- Шапка -->
-    <header class="header">
-        <div class="header-left">
-            <h1><i class="fas fa-store"></i> Arizona - Lavki <span class="count" id="shopCount">—</span></h1>
-        </div>
-        <div class="header-right">
-            <span class="status">
-                <span class="dot online" id="statusDot"></span>
-                <span id="statusText">OK</span>
-            </span>
-        </div>
-    </header>
-
-    <!-- Настройки (только тема) -->
-    <div class="accordion" id="settingsAccordion">
-        <div class="accordion-header" onclick="toggleAccordion()">
-            <span><i class="fas fa-sliders-h"></i> Настройки</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="accordion-body">
-            <div class="row theme-toggle">
-                <label>Тема</label>
-                <button class="btn btn-outline" id="themeToggleBtn"><i class="fas fa-moon"></i> Тёмная</button>
+    <!-- ===== ГЛАВНОЕ МЕНЮ ===== -->
+    <div id="menu">
+        <div class="menu-glass">
+            <div class="menu-header">
+                <img src="assets/img/logoo.png" alt="Logo" class="menu-logo" />
+                <h1 class="menu-title">Arizona - Lavki</h1>
+                <p class="menu-subtitle">Все лавки Arizona RP в одном месте</p>
+            </div>
+            <div class="menu-info">
+                <div class="info-item"><i class="fas fa-store"></i> Актуальные цены</div>
+                <div class="info-item"><i class="fas fa-filter"></i> Фильтры по серверу и типу</div>
+                <div class="info-item"><i class="fas fa-search"></i> Умный поиск по товарам</div>
+                <div class="info-item"><i class="fas fa-sync-alt"></i> Автообновление каждые 2 минуты</div>
+            </div>
+            <button id="goToShopsBtn" class="glass-btn"><i class="fas fa-arrow-right"></i> Перейти к лавкам</button>
+            <div class="menu-footer">
+                <span>Владелец: KK Studio</span>
+                <span>·</span>
+                <span><i class="fab fa-telegram"></i> <a href="https://t.me/your_telegram" target="_blank">@bobanya1</a></span>
             </div>
         </div>
     </div>
 
-    <!-- Фильтры -->
-    <div class="filters">
-        <select id="serverSelect"></select>
-        <select id="typeFilter">
-            <option value="all">Все</option>
-            <option value="sell">Продажа</option>
-            <option value="buy">Скупка</option>
-        </select>
-        <input id="searchInput" placeholder="Поиск (товар)" />
-        <div class="actions">
-            <button class="btn btn-primary" id="refreshBtn"><i class="fas fa-rotate"></i> Обновить</button>
-            <button class="btn btn-outline" id="resetFiltersBtn"><i class="fas fa-undo"></i> Сброс</button>
-        </div>
-    </div>
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ (ЛАВКИ) ===== -->
+    <div id="app">
+        <div class="app-inner">
+            <!-- Фиксированный хедер -->
+            <header class="header">
+                <div class="header-left">
+                    <h1><i class="fas fa-store"></i> Arizona - Lavki <span class="count" id="shopCount">—</span></h1>
+                </div>
+                <div class="header-right">
+                    <span class="status">
+                        <span class="dot online" id="statusDot"></span>
+                        <span id="statusText">OK</span>
+                    </span>
+                </div>
+            </header>
 
-    <!-- Список карточек -->
-    <div id="shopsContainer">
-        <div style="text-align:center; padding:40px 0; color:#aaa;">
-            <i class="fas fa-spinner fa-spin fa-2x"></i>
-            <p style="margin-top:12px;">Загрузка…</p>
-        </div>
-    </div>
-
-    <!-- Пагинация -->
-    <div class="pagination">
-        <span class="info" id="totalShops">—</span>
-        <div class="controls">
-            <span class="info" id="pageInfo">1 / 1</span>
-            <button class="btn" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
-            <button class="btn" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    </div>
-
-    <!-- Подвал -->
-    <div class="footer">
-        <div>
-            <span class="owner"><i class="fas fa-crown"></i> Владелец: KK Studio</span>
-            <span style="margin: 0 8px;">·</span>
-            <span><i class="fab fa-telegram"></i> <a href="https://t.me/your_telegram" target="_blank">@bobanya1</a></span>
-        </div>
-        <div class="version">Версия 2.0 · Данные обновляются каждые 2 минуты</div>
-        <div class="session-status" id="sessionStatus">сессия: —</div>
-    </div>
-</div>
-
-<!-- Modal Root -->
-<div id="modalRoot" class="modal-overlay" style="display:none;"></div>
-
-<script>
-    // ================================================================
-    //  API URL (жестко задан)
-    // ================================================================
-    const API_BASE = 'https://va-ta.com/api';
-
-    // ================================================================
-    //  CONFIG
-    // ================================================================
-    const ARZ_SERVERS = [
-        { name: 'Все', id: -1 },
-        { name: 'Vice City', id: 0 },
-        { name: 'Phoenix', id: 1 },
-        { name: 'Tucson', id: 2 },
-        { name: 'Scottdale', id: 3 },
-        { name: 'Chandler', id: 4 },
-        { name: 'Brainburg', id: 5 },
-        { name: 'SaintRose', id: 6 },
-        { name: 'Mesa', id: 7 },
-        { name: 'Red Rock', id: 8 },
-        { name: 'Yuma', id: 9 },
-        { name: 'Surprise', id: 10 },
-        { name: 'Prescott', id: 11 },
-        { name: 'Glendale', id: 12 },
-        { name: 'Kingman', id: 13 },
-        { name: 'Winslow', id: 14 },
-        { name: 'Payson', id: 15 },
-        { name: 'Gilbert', id: 16 },
-        { name: 'Show Low', id: 17 },
-        { name: 'CasaGrande', id: 18 },
-        { name: 'Page', id: 19 },
-        { name: 'Sun City', id: 20 },
-        { name: 'Queen Creek', id: 21 },
-        { name: 'Sedona', id: 22 },
-        { name: 'Holiday', id: 23 },
-        { name: 'Wednesday', id: 24 },
-        { name: 'Yava', id: 25 },
-        { name: 'Faraway', id: 26 },
-        { name: 'Bumble Bee', id: 27 },
-        { name: 'Christmas', id: 28 },
-        { name: 'Mirage', id: 29 },
-        { name: 'Love', id: 30 },
-        { name: 'Drake', id: 31 },
-        { name: 'Space', id: 32 },
-        { name: 'Mobile I', id: 101 },
-        { name: 'Mobile II', id: 102 },
-        { name: 'Mobile III', id: 103 },
-    ];
-
-    let state = {
-        sessionToken: '',
-        shops: [],
-        filteredShops: [],
-        items: [],
-        page: 1,
-        pageSize: 20,
-        serverId: -1,
-        typeFilter: 'all',
-        search: '',
-        loading: false,
-        mode: 'shops',
-    };
-
-    // ================================================================
-    //  DOM REFS
-    // ================================================================
-    const $ = id => document.getElementById(id);
-    const container = $('shopsContainer');
-    const shopCount = $('shopCount');
-    const pageInfo = $('pageInfo');
-    const prevBtn = $('prevPageBtn');
-    const nextBtn = $('nextPageBtn');
-    const totalShops = $('totalShops');
-    const statusDot = $('statusDot');
-    const statusText = $('statusText');
-    const sessionStatus = $('sessionStatus');
-    const serverSelect = $('serverSelect');
-    const typeFilter = $('typeFilter');
-    const searchInput = $('searchInput');
-    const refreshBtn = $('refreshBtn');
-    const resetFiltersBtn = $('resetFiltersBtn');
-    const modalRoot = $('modalRoot');
-    const themeToggleBtn = $('themeToggleBtn');
-
-    // ================================================================
-    //  ТЕМА
-    // ================================================================
-    function initTheme() {
-        const saved = localStorage.getItem('mh_theme');
-        if (saved === 'dark') {
-            document.body.classList.add('dark');
-            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Светлая';
-        } else {
-            document.body.classList.remove('dark');
-            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i> Тёмная';
-        }
-    }
-    function toggleTheme() {
-        const isDark = document.body.classList.toggle('dark');
-        localStorage.setItem('mh_theme', isDark ? 'dark' : 'light');
-        themeToggleBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i> Светлая' : '<i class="fas fa-moon"></i> Тёмная';
-    }
-
-    // ================================================================
-    //  HELPERS
-    // ================================================================
-    function getApiBase() { return API_BASE.replace(/\/+$/, ''); }
-    function fmt(n) { if (n == null || n <= 0) return '—'; n = Math.floor(n); return '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-    function setStatus(type, msg) { statusDot.className = 'dot ' + type; statusText.textContent = msg; }
-    function getServerName(id) { const found = ARZ_SERVERS.find(s => s.id === id); return found ? found.name : String(id); }
-    function toggleAccordion() { document.getElementById('settingsAccordion').classList.toggle('open'); }
-    function getOwnerName(shop) { return shop.owner || 'Неизвестно'; }
-    function getShopNum(shop) { return shop.shop_num ? '#' + shop.shop_num : 'Без номера'; }
-
-    function showToast(msg) {
-        const toast = document.createElement('div');
-        toast.textContent = msg;
-        Object.assign(toast.style, {
-            position: 'fixed',
-            bottom: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(0,0,0,0.8)',
-            color: '#fff',
-            padding: '10px 20px',
-            borderRadius: '12px',
-            fontSize: '16px',
-            zIndex: 9999,
-            maxWidth: '90%',
-            textAlign: 'center',
-            transition: 'opacity 0.3s',
-            opacity: '1',
-        });
-        document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, 2000);
-    }
-
-    function copyText(text) {
-        if (!text) return;
-        navigator.clipboard?.writeText(text).then(() => {
-            showToast('Скопировано: ' + text);
-        }).catch(() => {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-            showToast('Скопировано: ' + text);
-        });
-    }
-
-    // ================================================================
-    //  API
-    // ================================================================
-    async function apiFetch(endpoint, options = {}) {
-        const base = getApiBase();
-        if (!base) throw new Error('API URL не задан');
-        const headers = { 'Content-Type': 'application/json' };
-        if (state.sessionToken) headers['X-MH-Session'] = state.sessionToken;
-        const resp = await fetch(base + endpoint, { ...options, headers });
-        if (!resp.ok) {
-            let text = await resp.text();
-            try { const j = JSON.parse(text); if (j.error) text = j.error; } catch(_){}
-            throw new Error(`Ошибка ${resp.status}: ${text.slice(0, 100)}`);
-        }
-        let data;
-        try { data = await resp.json(); } catch(e) { throw new Error('Ответ не JSON'); }
-        if (data?.error) throw new Error(data.error);
-        return data;
-    }
-
-    async function fetchSession() {
-        try {
-            const resp = await fetch(getApiBase() + '/version?ver=4.6.7&size=0&nick=Player');
-            if (!resp.ok) throw new Error('HTTP ' + resp.status);
-            const data = await resp.json();
-            if (data?.session_token) {
-                state.sessionToken = data.session_token;
-                sessionStatus.textContent = 'сессия: ' + state.sessionToken.slice(0,8) + '…';
-                return true;
-            }
-        } catch(e) { console.warn('Сессия не получена:', e); }
-        return false;
-    }
-
-    // ================================================================
-    //  ЗАГРУЗКА ЛАВОК
-    // ================================================================
-    async function loadShops() {
-        if (state.loading) return;
-        state.loading = true;
-        setStatus('loading', 'Загрузка…');
-        container.innerHTML = `<div style="text-align:center; padding:40px 0; color:#aaa;"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Загрузка…</p></div>`;
-
-        try {
-            if (!getApiBase()) throw new Error('API URL не задан');
-            if (!state.sessionToken) await fetchSession();
-
-            const params = new URLSearchParams();
-            if (state.serverId !== -1) params.append('server', state.serverId);
-
-            const data = await apiFetch('/shops/pull?' + params.toString());
-            if (!data.shops || !Array.isArray(data.shops)) throw new Error('Нет массива shops');
-            state.shops = data.shops;
-            applyFiltersAndMode();
-            setStatus('online', 'OK');
-        } catch(err) {
-            setStatus('offline', 'Ошибка');
-            container.innerHTML = `<div style="text-align:center; padding:30px 0; color:#b33;"><i class="fas fa-exclamation-triangle"></i> ${err.message}</div>`;
-        } finally {
-            state.loading = false;
-        }
-    }
-
-    // ================================================================
-    //  ФИЛЬТРАЦИЯ И РЕЖИМ ОТОБРАЖЕНИЯ
-    // ================================================================
-    function applyFiltersAndMode() {
-        const search = state.search.toLowerCase().trim();
-        const type = state.typeFilter;
-
-        let filteredShops = state.shops.slice();
-
-        if (state.serverId !== -1) {
-            filteredShops = filteredShops.filter(s => s.server_id === state.serverId);
-        }
-
-        if (type === 'sell') {
-            filteredShops = filteredShops.filter(s => (s.sell_slots || []).length > 0);
-        } else if (type === 'buy') {
-            filteredShops = filteredShops.filter(s => (s.buy_slots || []).length > 0);
-        }
-
-        if (search) {
-            state.mode = 'items';
-            const items = [];
-            for (const shop of filteredShops) {
-                for (const slot of (shop.sell_slots || [])) {
-                    if ((slot.name || '').toLowerCase().includes(search)) {
-                        items.push({
-                            type: 'sell',
-                            name: slot.name || '?',
-                            price: slot.price || 0,
-                            shop: shop,
-                        });
-                    }
-                }
-                for (const slot of (shop.buy_slots || [])) {
-                    if ((slot.name || '').toLowerCase().includes(search)) {
-                        items.push({
-                            type: 'buy',
-                            name: slot.name || '?',
-                            price: slot.price || 0,
-                            shop: shop,
-                        });
-                    }
-                }
-            }
-            state.items = items;
-            state.filteredShops = [];
-        } else {
-            state.mode = 'shops';
-            state.filteredShops = filteredShops;
-            state.items = [];
-        }
-
-        state.page = 1;
-        renderContent();
-    }
-
-    // ================================================================
-    //  ОТОБРАЖЕНИЕ
-    // ================================================================
-    function renderContent() {
-        if (state.mode === 'items') {
-            renderItems();
-        } else {
-            renderShops();
-        }
-    }
-
-    function renderShops() {
-        const total = state.filteredShops.length;
-        const pageSize = state.pageSize;
-        const totalPages = Math.max(1, Math.ceil(total / pageSize));
-        const page = Math.min(state.page, totalPages);
-        const start = (page - 1) * pageSize;
-        const end = Math.min(start + pageSize, total);
-        const pageShops = state.filteredShops.slice(start, end);
-
-        shopCount.textContent = total;
-        totalShops.textContent = 'Всего лавок: ' + total;
-        pageInfo.textContent = `${page} / ${totalPages}`;
-        prevBtn.disabled = (page <= 1);
-        nextBtn.disabled = (page >= totalPages);
-
-        if (total === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:30px 0; color:#aaa;">Нет лавок</div>`;
-            return;
-        }
-
-        container.innerHTML = pageShops.map((shop, idx) => {
-            const sellCount = (shop.sell_slots || []).length;
-            const buyCount = (shop.buy_slots || []).length;
-            const upd = shop.updated_at || shop.scanned_at || 0;
-            let updStr = '—';
-            if (upd) {
-                const d = new Date(upd * 1000);
-                const now = Date.now();
-                if (now - d.getTime() < 86400000) updStr = d.toLocaleTimeString('ru', {hour:'2-digit', minute:'2-digit'});
-                else updStr = d.toLocaleDateString('ru', {day:'2-digit', month:'2-digit'});
-            }
-            const owner = getOwnerName(shop);
-            const shopNum = getShopNum(shop);
-
-            return `
-                <div class="card" data-shop-index="${idx}">
-                    <div class="top">
-                        <div>
-                            <div class="title" data-nick="${shop.owner || ''}">
-                                ${owner}
-                            </div>
-                            <div class="sub">${getServerName(shop.server_id)} · ${shopNum}</div>
-                        </div>
+            <!-- Настройки (аккордеон) -->
+            <div class="accordion" id="settingsAccordion">
+                <div class="accordion-header" onclick="toggleAccordion()">
+                    <span><i class="fas fa-sliders-h"></i> Настройки</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-body">
+                    <div class="row theme-toggle">
+                        <label>Тема</label>
+                        <button class="btn btn-outline" id="themeToggleBtn"><i class="fas fa-moon"></i> Тёмная</button>
                     </div>
-                    <div class="meta">
-                        <span>
-                            <i class="fas fa-tag"></i> ${sellCount} &nbsp;
-                            <i class="fas fa-shopping-cart"></i> ${buyCount}
-                        </span>
-                        <span>${updStr}</span>
-                    </div>
-                    <div class="action">
-                        <button class="btn" data-shop-index="${idx}"><i class="fas fa-eye"></i> Товары</button>
+                    <div class="row">
+                        <button class="btn btn-outline btn-sm" id="backToMenuBtn"><i class="fas fa-arrow-left"></i> На главную</button>
                     </div>
                 </div>
-            `;
-        }).join('');
+            </div>
 
-        container.querySelectorAll('.card .btn[data-shop-index]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const idx = parseInt(btn.dataset.shopIndex);
-                const shop = state.filteredShops[idx];
-                if (shop) openShopDetail(shop);
-            });
-        });
-        container.querySelectorAll('.card .title[data-nick]').forEach(el => {
-            el.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const nick = el.dataset.nick;
-                if (nick) copyText(nick);
-            });
-        });
-    }
-
-    function renderItems() {
-        const total = state.items.length;
-        const pageSize = state.pageSize;
-        const totalPages = Math.max(1, Math.ceil(total / pageSize));
-        const page = Math.min(state.page, totalPages);
-        const start = (page - 1) * pageSize;
-        const end = Math.min(start + pageSize, total);
-        const pageItems = state.items.slice(start, end);
-
-        shopCount.textContent = total;
-        totalShops.textContent = 'Найдено товаров: ' + total;
-        pageInfo.textContent = `${page} / ${totalPages}`;
-        prevBtn.disabled = (page <= 1);
-        nextBtn.disabled = (page >= totalPages);
-
-        if (total === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:30px 0; color:#aaa;">Товары не найдены</div>`;
-            return;
-        }
-
-        container.innerHTML = pageItems.map((item, idx) => {
-            const shop = item.shop;
-            const owner = getOwnerName(shop);
-            const shopNum = getShopNum(shop);
-            const srv = getServerName(shop.server_id);
-            const typeLabel = item.type === 'sell' ? 'Продажа' : 'Скупка';
-            const icon = item.type === 'sell' ? 'fa-tag' : 'fa-shopping-cart';
-            const priceStr = fmt(item.price);
-
-            return `
-                <div class="card">
-                    <div class="top">
-                        <div>
-                            <div class="title">
-                                <i class="fas ${icon}"></i> ${item.name}
-                            </div>
-                            <div class="sub">${typeLabel} · ${srv} · ${shopNum} · ${owner}</div>
-                        </div>
-                    </div>
-                    <div class="meta">
-                        <span><strong>${priceStr}</strong></span>
-                        <span>ID лавки: ${shop.shop_num || '?'}</span>
-                    </div>
-                    <div class="action">
-                        <button class="btn" data-shop-id="${shop.shop_num || ''}"><i class="fas fa-map-pin"></i> GPS</button>
-                    </div>
+            <!-- ФИЛЬТРЫ с модалками -->
+            <div class="filters">
+                <button class="btn btn-outline filter-trigger" id="serverTrigger">
+                    <i class="fas fa-globe"></i> <span id="serverLabel">Все сервера</span>
+                </button>
+                <button class="btn btn-outline filter-trigger" id="typeTrigger">
+                    <i class="fas fa-tag"></i> <span id="typeLabel">Все</span>
+                </button>
+                <input id="searchInput" placeholder="Умный поиск по товару..." />
+                <div class="actions">
+                    <button class="btn btn-primary" id="refreshBtn"><i class="fas fa-rotate"></i> Обновить</button>
+                    <button class="btn btn-outline" id="resetFiltersBtn"><i class="fas fa-undo"></i> Сброс</button>
                 </div>
-            `;
-        }).join('');
+            </div>
 
-        container.querySelectorAll('.card .btn[data-shop-id]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const num = btn.dataset.shopId;
-                if (num) alert('GPS: /findilavka ' + num);
-                else alert('Номер лавки не указан');
-            });
-        });
-    }
+            <!-- Список лавок -->
+            <div id="shopsContainer">
+                <div style="text-align:center; padding:40px 0; color:var(--text-secondary);">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p style="margin-top:12px;">Загрузка…</p>
+                </div>
+            </div>
 
-    // ================================================================
-    //  МОДАЛЬНОЕ ОКНО
-    // ================================================================
-    function openShopDetail(shop) {
-        modalRoot.innerHTML = '';
-        modalRoot.style.display = 'flex';
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = `
+            <!-- Пагинация -->
+            <div class="pagination">
+                <span class="info" id="totalShops">—</span>
+                <div class="controls">
+                    <span class="info" id="pageInfo">1 / 1</span>
+                    <button class="btn" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Подвал -->
+            <div class="footer">
+                <div>
+                    <span class="owner"><i class="fas fa-crown"></i> Владелец: KK Studio</span>
+                    <span style="margin: 0 8px;">·</span>
+                    <span><i class="fab fa-telegram"></i> <a href="https://t.me/your_telegram" target="_blank">@bobanya1</a></span>
+                </div>
+                <div class="version">Версия 2.0 · Данные обновляются каждые 2 минуты</div>
+                <div class="session-status" id="sessionStatus">сессия: —</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛКА ВЫБОРА СЕРВЕРА ===== -->
+    <div id="serverModal" class="modal-overlay" style="display:none;">
+        <div class="modal glass-modal">
             <div class="modal-header">
-                <h3>${getOwnerName(shop)} · ${getShopNum(shop)}</h3>
-                <button class="modal-close" data-modal-close>&times;</button>
+                <h3><i class="fas fa-server"></i> Выберите сервер</h3>
+                <button class="modal-close" data-modal-close="server">&times;</button>
             </div>
-            <div class="server-name">${getServerName(shop.server_id)}</div>
-            <div class="grid-2">
-                <div class="slot-box">
-                    <h4>Продаёт</h4>
-                    ${(shop.sell_slots||[]).length ? shop.sell_slots.map(s => `<div class="slot-item"><span>${s.name||'?'}</span><span class="price">${fmt(s.price)}</span></div>`).join('') : '<div class="empty">—</div>'}
-                </div>
-                <div class="slot-box">
-                    <h4>Скупает</h4>
-                    ${(shop.buy_slots||[]).length ? shop.buy_slots.map(s => `<div class="slot-item"><span>${s.name||'?'}</span><span class="price">${fmt(s.price)}</span></div>`).join('') : '<div class="empty">—</div>'}
-                </div>
+            <div class="modal-body server-list" id="serverList">
+                <!-- Список серверов вставляется скриптом -->
             </div>
-            <div class="actions">
-                <button class="btn btn-primary" data-modal-gps><i class="fas fa-map-pin"></i> GPS</button>
-                <button class="btn btn-outline" data-modal-close>Закрыть</button>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛКА ВЫБОРА ТИПА ===== -->
+    <div id="typeModal" class="modal-overlay" style="display:none;">
+        <div class="modal glass-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-filter"></i> Тип</h3>
+                <button class="modal-close" data-modal-close="type">&times;</button>
             </div>
-        `;
-        modalRoot.appendChild(modal);
+            <div class="modal-body type-grid" id="typeGrid">
+                <button class="type-btn active" data-type="all">
+                    <i class="fas fa-arrows-spin"></i>
+                    <span>Все</span>
+                    <small>Показывать все лавки</small>
+                </button>
+                <button class="type-btn" data-type="sell">
+                    <i class="fas fa-tag"></i>
+                    <span>Продажа</span>
+                    <small>Только лавки с товарами на продажу</small>
+                </button>
+                <button class="type-btn" data-type="buy">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Скупка</span>
+                    <small>Только лавки, которые скупают</small>
+                </button>
+            </div>
+        </div>
+    </div>
 
-        const close = () => { modalRoot.style.display = 'none'; modalRoot.innerHTML = ''; };
-        modal.querySelectorAll('[data-modal-close]').forEach(el => el.addEventListener('click', close));
-        modal.querySelector('[data-modal-gps]')?.addEventListener('click', () => {
-            if (shop.shop_num) alert('GPS: /findilavka ' + shop.shop_num);
-            else alert('Номер лавки не указан');
-            close();
-        });
-        modalRoot.addEventListener('click', e => { if (e.target === modalRoot) close(); });
-    }
+    <!-- ===== МОДАЛКА ДЕТАЛЕЙ ЛАВКИ (ТОВАРЫ) ===== -->
+    <div id="modalRoot" class="modal-overlay" style="display:none;"></div>
 
-    // ================================================================
-    //  ИНИЦИАЛИЗАЦИЯ
-    // ================================================================
-    function populateServers() {
-        serverSelect.innerHTML = ARZ_SERVERS.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-        serverSelect.value = state.serverId;
-    }
-
-    async function init() {
-        populateServers();
-        initTheme();
-        await fetchSession();
-        await loadShops();
-        setInterval(() => { if (!state.loading) loadShops(); }, 120000);
-    }
-
-    // События
-    serverSelect.addEventListener('change', () => {
-        state.serverId = parseInt(serverSelect.value);
-        state.page = 1;
-        loadShops();
-    });
-
-    typeFilter.addEventListener('change', () => {
-        state.typeFilter = typeFilter.value;
-        state.page = 1;
-        if (state.shops.length) {
-            applyFiltersAndMode();
-        } else {
-            loadShops();
-        }
-    });
-
-    searchInput.addEventListener('input', () => {
-        state.search = searchInput.value;
-        state.page = 1;
-        if (state.shops.length) {
-            applyFiltersAndMode();
-        } else {
-            loadShops();
-        }
-    });
-
-    refreshBtn.addEventListener('click', loadShops);
-
-    resetFiltersBtn.addEventListener('click', () => {
-        state.serverId = -1;
-        state.typeFilter = 'all';
-        state.search = '';
-        serverSelect.value = -1;
-        typeFilter.value = 'all';
-        searchInput.value = '';
-        state.page = 1;
-        loadShops();
-    });
-
-    prevBtn.addEventListener('click', () => { if (state.page > 1) { state.page--; renderContent(); } });
-    nextBtn.addEventListener('click', () => {
-        const total = state.mode === 'items' ? state.items.length : state.filteredShops.length;
-        const totalPages = Math.max(1, Math.ceil(total / state.pageSize));
-        if (state.page < totalPages) { state.page++; renderContent(); }
-    });
-
-    themeToggleBtn.addEventListener('click', toggleTheme);
-
-    init().catch(err => {
-        console.error(err);
-        setStatus('offline', 'Ошибка');
-    });
-
-    window.loadShops = loadShops;
-</script>
-
+    <script src="js/script.js"></script>
 </body>
 </html>
